@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Program Adı - Mugesan Platform</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Program-specific styles */
+        .program-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 32px;
+        }
+
+        .program-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 32px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .program-header h1 {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.75rem;
+        }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: var(--background);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .back-btn:hover {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .program-content {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            border: 1px solid var(--border-color);
+        }
+
+        .placeholder-message {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-secondary);
+        }
+
+        .placeholder-message i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: var(--border-color);
+        }
+
+        .placeholder-message h2 {
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+    </style>
+</head>
+<body>
+    <div class="program-container">
+        <header class="program-header">
+            <h1>
+                <i class="fas fa-cog"></i>
+                Program Adı
+            </h1>
+            <a href="../../index.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                Ana Sayfaya Dön
+            </a>
+        </header>
+
+        <main class="program-content">
+            <div class="placeholder-message">
+                <i class="fas fa-tools"></i>
+                <h2>Bu program yapılandırılmayı bekliyor</h2>
+                <p>Program içeriği burada görünecektir.</p>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Program-specific JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Program yüklendi');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mugesan Platform</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-industry"></i>
+                    <span>MUGESAN</span>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active">
+                    <i class="fas fa-th-large"></i>
+                    <span>Ana Sayfa</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-cog"></i>
+                    <span>Ayarlar</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-user"></i>
+                    <span>Profil</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-question-circle"></i>
+                    <span>Yardım</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <p>Mugesan Platform v1.0</p>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <div class="header-left">
+                    <button class="menu-toggle" id="menuToggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1>Program Yönetim Paneli</h1>
+                </div>
+                <div class="header-right">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Program ara...">
+                    </div>
+                    <div class="user-info">
+                        <span>Hoş geldiniz</span>
+                        <div class="avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Content -->
+            <div class="dashboard">
+                <div class="section-title">
+                    <h2><i class="fas fa-th"></i> Programlar</h2>
+                    <p>Kullanmak istediğiniz programı seçin</p>
+                </div>
+
+                <div class="programs-grid">
+                    <!-- Thordon Kesim ve Malzeme Seçim Programı -->
+                    <div class="program-card" data-program="thordon-kesim">
+                        <div class="card-icon thordon">
+                            <i class="fas fa-cut"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Thordon Kesim ve Malzeme Seçim Programı</h3>
+                            <p>Thordon ürünleri için kesim ve malzeme seçimi</p>
+                        </div>
+                        <div class="card-status">
+                            <span class="status-badge pending">Yapılandırılacak</span>
+                        </div>
+                        <button class="card-btn" disabled>
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+
+                    <!-- Atölye İş Programı -->
+                    <div class="program-card" data-program="atolye-is">
+                        <div class="card-icon workshop">
+                            <i class="fas fa-tools"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Atölye İş Programı</h3>
+                            <p>Atölye iş takibi ve yönetimi</p>
+                        </div>
+                        <div class="card-status">
+                            <span class="status-badge pending">Yapılandırılacak</span>
+                        </div>
+                        <button class="card-btn" disabled>
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+
+                    <!-- Mugesan İş Takip Programı -->
+                    <div class="program-card" data-program="mugesan-is-takip">
+                        <div class="card-icon mugesan">
+                            <i class="fas fa-tasks"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Mugesan İş Takip Programı</h3>
+                            <p>Genel iş takibi ve proje yönetimi</p>
+                        </div>
+                        <div class="card-status">
+                            <span class="status-badge pending">Yapılandırılacak</span>
+                        </div>
+                        <button class="card-btn" disabled>
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+
+                    <!-- Chockfast Müşteriler Stok Takibi -->
+                    <div class="program-card" data-program="chockfast-stok">
+                        <div class="card-icon chockfast">
+                            <i class="fas fa-warehouse"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Chockfast Müşteriler Stok Takibi ve İş Bitiş Programı</h3>
+                            <p>Müşteri stok durumu ve iş bitiş takibi</p>
+                        </div>
+                        <div class="card-status">
+                            <span class="status-badge pending">Yapılandırılacak</span>
+                        </div>
+                        <button class="card-btn" disabled>
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+
+                    <!-- Chockfast Sertlik Raporu Hazırlama -->
+                    <div class="program-card" data-program="chockfast-sertlik">
+                        <div class="card-icon chockfast">
+                            <i class="fas fa-file-medical-alt"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Chockfast Sertlik Raporu Hazırlama Programı</h3>
+                            <p>Sertlik test raporları oluşturma</p>
+                        </div>
+                        <div class="card-status">
+                            <span class="status-badge pending">Yapılandırılacak</span>
+                        </div>
+                        <button class="card-btn" disabled>
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+
+                    <!-- Chris Marine Ödeme Komisyon -->
+                    <div class="program-card" data-program="chris-marine">
+                        <div class="card-icon chris">
+                            <i class="fas fa-money-bill-wave"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Chris Marine Ödeme, Komisyon Takip Programı</h3>
+                            <p>Ödeme ve komisyon yönetimi</p>
+                        </div>
+                        <div class="card-status">
+                            <span class="status-badge pending">Yapılandırılacak</span>
+                        </div>
+                        <button class="card-btn" disabled>
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+
+                    <!-- Commercial Invoice & Packing List -->
+                    <div class="program-card" data-program="commercial-invoice">
+                        <div class="card-icon invoice">
+                            <i class="fas fa-file-invoice"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Commercial Invoice & Packing List Hazırlama Programı</h3>
+                            <p>Ticari fatura ve paketleme listesi oluşturma</p>
+                        </div>
+                        <div class="card-status">
+                            <span class="status-badge pending">Yapılandırılacak</span>
+                        </div>
+                        <button class="card-btn" disabled>
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+
+                    <!-- Sipariş Portalı & PO -->
+                    <div class="program-card" data-program="siparis-portal">
+                        <div class="card-icon portal">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Sipariş Portalı & PO Oluşturma Aracı</h3>
+                            <p>Sipariş yönetimi ve satın alma emri oluşturma</p>
+                        </div>
+                        <div class="card-status">
+                            <span class="status-badge pending">Yapılandırılacak</span>
+                        </div>
+                        <button class="card-btn" disabled>
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+
+                    <!-- Servis Raporu Takibi -->
+                    <div class="program-card" data-program="servis-raporu">
+                        <div class="card-icon service">
+                            <i class="fas fa-clipboard-list"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Servis Raporu Takibi Programı</h3>
+                            <p>Servis raporlarının takibi ve yönetimi</p>
+                        </div>
+                        <div class="card-status">
+                            <span class="status-badge pending">Yapılandırılacak</span>
+                        </div>
+                        <button class="card-btn" disabled>
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+
+                    <!-- Sertlik Raporu Oluşturma -->
+                    <div class="program-card" data-program="sertlik-raporu">
+                        <div class="card-icon report">
+                            <i class="fas fa-file-signature"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Sertlik Raporu Oluşturma Programı</h3>
+                            <p>Genel sertlik raporları oluşturma</p>
+                        </div>
+                        <div class="card-status">
+                            <span class="status-badge pending">Yapılandırılacak</span>
+                        </div>
+                        <button class="card-btn" disabled>
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+
+                    <!-- Chockfast ID Card Üretim -->
+                    <div class="program-card" data-program="chockfast-idcard">
+                        <div class="card-icon chockfast">
+                            <i class="fas fa-id-card"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Chockfast ID Card Üretim Programı</h3>
+                            <p>Chockfast kimlik kartı oluşturma</p>
+                        </div>
+                        <div class="card-status">
+                            <span class="status-badge pending">Yapılandırılacak</span>
+                        </div>
+                        <button class="card-btn" disabled>
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+
+                    <!-- Chockfast Bolt Torque Calculation -->
+                    <div class="program-card" data-program="chockfast-torque">
+                        <div class="card-icon chockfast">
+                            <i class="fas fa-calculator"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Chockfast Bolt Torque Calculation Program</h3>
+                            <p>Cıvata tork hesaplama aracı</p>
+                        </div>
+                        <div class="card-status">
+                            <span class="status-badge pending">Yapılandırılacak</span>
+                        </div>
+                        <button class="card-btn" disabled>
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <footer class="footer">
+                <p>&copy; 2026 Mugesan. Tüm hakları saklıdır.</p>
+            </footer>
+        </main>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
