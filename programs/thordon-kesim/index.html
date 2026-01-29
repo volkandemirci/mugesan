@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thordon Kesim ve Malzeme Seçim Programı - Mugesan Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="main-header">
+            <div class="header-left">
+                <a href="../../index.html" class="back-btn">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+                <div class="header-title">
+                    <h1><i class="fas fa-cut"></i> Thordon Kesim ve Malzeme Seçim Programı</h1>
+                    <span class="subtitle">Stok Yönetimi ve Malzeme Hesaplama</span>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="exchange-rate-box">
+                    <label>CAD/USD Kuru:</label>
+                    <input type="number" id="exchangeRate" step="0.0001" value="0.7400" min="0">
+                    <button id="saveExchangeRate" class="btn btn-sm btn-primary">
+                        <i class="fas fa-save"></i>
+                    </button>
+                </div>
+                <div class="connection-status" id="connectionStatus">
+                    <i class="fas fa-circle"></i>
+                    <span>Bağlanıyor...</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Tab Navigation -->
+        <nav class="tab-navigation">
+            <button class="tab-btn active" data-tab="stok-listesi">
+                <i class="fas fa-list"></i>
+                Thordon Stok Listesi
+            </button>
+            <button class="tab-btn" data-tab="malzeme-bulma">
+                <i class="fas fa-search"></i>
+                Malzeme Bulma
+            </button>
+            <button class="tab-btn" data-tab="hareketler">
+                <i class="fas fa-history"></i>
+                Hareketler
+            </button>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Stok Listesi Tab -->
+            <section class="tab-content active" id="stok-listesi">
+                <div class="section-header">
+                    <h2>Thordon Stok Listesi</h2>
+                    <div class="section-actions">
+                        <button class="btn btn-success" id="addStockBtn">
+                            <i class="fas fa-plus"></i> Yeni Stok Ekle
+                        </button>
+                        <button class="btn btn-secondary" id="exportExcelBtn">
+                            <i class="fas fa-file-excel"></i> Excel İndir
+                        </button>
+                        <button class="btn btn-secondary" id="importExcelBtn">
+                            <i class="fas fa-upload"></i> Excel Yükle
+                        </button>
+                        <input type="file" id="excelFileInput" accept=".xlsx,.xls,.csv" style="display:none">
+                    </div>
+                </div>
+
+                <div class="filter-bar">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="stockSearch" placeholder="Stok kodu, açıklama veya model ara...">
+                    </div>
+                    <div class="filter-group">
+                        <select id="modelFilter">
+                            <option value="">Tüm Modeller</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table class="data-table" id="stockTable">
+                        <thead>
+                            <tr>
+                                <th>Stok Kodu</th>
+                                <th>Stok Açıklaması</th>
+                                <th>Malzeme Modeli</th>
+                                <th>Raf Adresi</th>
+                                <th>İç Çap (mm)</th>
+                                <th>Dış Çap (mm)</th>
+                                <th>Uzunluk (mm)</th>
+                                <th>Fiyat (CAD)</th>
+                                <th>Fiyat (USD)</th>
+                                <th>Birim Fiyat (CAD/mm)</th>
+                                <th>İşlemler</th>
+                            </tr>
+                        </thead>
+                        <tbody id="stockTableBody">
+                            <!-- Stok verileri buraya gelecek -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="table-footer">
+                    <span id="stockCount">0 kayıt</span>
+                </div>
+            </section>
+
+            <!-- Malzeme Bulma Tab -->
+            <section class="tab-content" id="malzeme-bulma">
+                <div class="malzeme-bulma-container">
+                    <!-- Sol Panel - Yatak Talepleri -->
+                    <div class="request-panel">
+                        <div class="panel-header">
+                            <h3><i class="fas fa-clipboard-list"></i> Yatak Talepleri</h3>
+                            <button class="btn btn-primary btn-sm" id="addRequestBtn">
+                                <i class="fas fa-plus"></i> Talep Ekle
+                            </button>
+                        </div>
+
+                        <!-- Talep Formu -->
+                        <div class="request-form" id="requestForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Malzeme Modeli</label>
+                                    <select id="reqModel" required>
+                                        <option value="">Model Seçin</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Final Dış Çap (mm)</label>
+                                    <input type="number" id="reqOuterDia" step="0.01" required>
+                                    <small>Stok: ≥ %1.5 fazlası</small>
+                                </div>
+                                <div class="form-group">
+                                    <label>Final İç Çap (mm)</label>
+                                    <input type="number" id="reqInnerDia" step="0.01" required>
+                                    <small>Stok: ≤ bu değer</small>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Final Uzunluk (mm)</label>
+                                    <input type="number" id="reqLength" step="0.01" required>
+                                    <small>Stok: ≥ +30mm</small>
+                                </div>
+                                <div class="form-group">
+                                    <label>Adet</label>
+                                    <input type="number" id="reqQuantity" min="1" value="1" required>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button class="btn btn-success" id="addToRequestList">
+                                    <i class="fas fa-plus"></i> Listeye Ekle
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Talep Listesi -->
+                        <div class="request-list">
+                            <h4>Talep Listesi</h4>
+                            <div class="request-items" id="requestItems">
+                                <p class="empty-message">Henüz talep eklenmedi</p>
+                            </div>
+                            <div class="request-summary" id="requestSummary" style="display:none">
+                                <button class="btn btn-primary btn-block" id="findMaterialsBtn">
+                                    <i class="fas fa-search"></i> En Uygun Malzemeleri Bul
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sağ Panel - Sonuçlar -->
+                    <div class="results-panel">
+                        <div class="panel-header">
+                            <h3><i class="fas fa-check-circle"></i> Sonuçlar</h3>
+                            <div class="ref-number" id="refNumber" style="display:none">
+                                Ref: <span></span>
+                            </div>
+                        </div>
+
+                        <!-- Uygun Malzemeler -->
+                        <div class="results-section" id="matchingMaterials" style="display:none">
+                            <h4><i class="fas fa-boxes"></i> Uygun Malzemeler</h4>
+                            <div class="materials-table-container">
+                                <table class="data-table compact">
+                                    <thead>
+                                        <tr>
+                                            <th>Stok Kodu</th>
+                                            <th>Model</th>
+                                            <th>İç Çap</th>
+                                            <th>Dış Çap</th>
+                                            <th>Uzunluk</th>
+                                            <th>Fiyat (CAD)</th>
+                                            <th>Seç</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="matchingMaterialsBody">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- İşleme Tablosu -->
+                        <div class="results-section" id="machiningSection" style="display:none">
+                            <h4><i class="fas fa-cogs"></i> İşleme Tablosu (Tornacı için)</h4>
+                            <div class="machining-info">
+                                <div class="info-badge">
+                                    <i class="fas fa-info-circle"></i>
+                                    30mm ayna tutma payı |
+                                    <span id="cuttingAllowanceInfo"></span>
+                                </div>
+                            </div>
+                            <div id="machiningTableContainer"></div>
+                            <div class="machining-actions">
+                                <button class="btn btn-secondary" id="printMachiningPdf">
+                                    <i class="fas fa-print"></i> Tornacı PDF İndir
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Teklif Listesi -->
+                        <div class="results-section" id="quoteSection" style="display:none">
+                            <h4><i class="fas fa-file-invoice-dollar"></i> Teklif Listesi</h4>
+                            <div id="quoteTableContainer"></div>
+                            <div class="quote-total" id="quoteTotal"></div>
+                            <div class="quote-actions">
+                                <button class="btn btn-primary" id="printQuotePdf">
+                                    <i class="fas fa-file-pdf"></i> Teklif PDF İndir
+                                </button>
+                                <button class="btn btn-success" id="confirmQuote">
+                                    <i class="fas fa-check"></i> Teklifi Onayla ve Stoktan Düş
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Hareketler Tab -->
+            <section class="tab-content" id="hareketler">
+                <div class="section-header">
+                    <h2>Stok Hareketleri</h2>
+                    <div class="section-actions">
+                        <button class="btn btn-secondary" id="refreshHistoryBtn">
+                            <i class="fas fa-sync-alt"></i> Yenile
+                        </button>
+                    </div>
+                </div>
+
+                <div class="filter-bar">
+                    <div class="filter-group">
+                        <label>Tarih Aralığı:</label>
+                        <input type="date" id="historyStartDate">
+                        <span>-</span>
+                        <input type="date" id="historyEndDate">
+                    </div>
+                    <div class="filter-group">
+                        <select id="historyTypeFilter">
+                            <option value="">Tüm İşlemler</option>
+                            <option value="add">Stok Ekleme</option>
+                            <option value="edit">Stok Düzenleme</option>
+                            <option value="delete">Stok Silme</option>
+                            <option value="quote">Teklif Oluşturma</option>
+                            <option value="deduct">Stoktan Düşme</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="timeline" id="historyTimeline">
+                    <!-- Hareketler buraya gelecek -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Stok Ekleme/Düzenleme Modal -->
+    <div class="modal" id="stockModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="stockModalTitle">Yeni Stok Ekle</h3>
+                <button class="modal-close" id="closeStockModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="stockForm">
+                    <input type="hidden" id="stockId">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Stok Kodu *</label>
+                            <input type="text" id="stockCode" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Malzeme Modeli *</label>
+                            <input type="text" id="stockModel" required list="modelSuggestions">
+                            <datalist id="modelSuggestions"></datalist>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Stok Açıklaması *</label>
+                        <input type="text" id="stockDescription" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Raf Adresi</label>
+                            <input type="text" id="stockShelf">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>İç Çap (mm) *</label>
+                            <input type="number" id="stockInnerDia" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Dış Çap (mm) *</label>
+                            <input type="number" id="stockOuterDia" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Uzunluk (mm) *</label>
+                            <input type="number" id="stockLength" step="0.01" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Fiyat (CAD) *</label>
+                            <input type="number" id="stockPriceCAD" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Fiyat (USD)</label>
+                            <input type="number" id="stockPriceUSD" step="0.01" readonly>
+                            <small>Otomatik hesaplanır</small>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancelStockBtn">İptal</button>
+                <button class="btn btn-primary" id="saveStockBtn">Kaydet</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Silme Onay Modal -->
+    <div class="modal" id="deleteModal">
+        <div class="modal-content modal-sm">
+            <div class="modal-header">
+                <h3>Silme Onayı</h3>
+                <button class="modal-close" id="closeDeleteModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Bu stok kaydını silmek istediğinizden emin misiniz?</p>
+                <p class="text-danger"><strong id="deleteItemName"></strong></p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancelDeleteBtn">İptal</button>
+                <button class="btn btn-danger" id="confirmDeleteBtn">Sil</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- PDF Template (Tornacı için - gizli) -->
+    <div id="machiningPdfTemplate" style="display:none">
+        <div class="pdf-content" id="machiningPdfContent">
+            <div class="pdf-header">
+                <h1>MUGESAN - İşleme Talimatı</h1>
+                <div class="pdf-ref">Ref: <span class="ref-no"></span></div>
+                <div class="pdf-date">Tarih: <span class="date"></span></div>
+            </div>
+            <div class="pdf-body"></div>
+            <div class="pdf-footer">
+                <p>Bu belge sadece üretim amaçlıdır.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- PDF Template (Teklif için - gizli) -->
+    <div id="quotePdfTemplate" style="display:none">
+        <div class="pdf-content" id="quotePdfContent">
+            <div class="pdf-header">
+                <h1>MUGESAN - Teklif Listesi</h1>
+                <div class="pdf-ref">Ref: <span class="ref-no"></span></div>
+                <div class="pdf-date">Tarih: <span class="date"></span></div>
+            </div>
+            <div class="pdf-body"></div>
+            <div class="pdf-total"></div>
+            <div class="pdf-footer">
+                <p>Fiyatlar CAD bazlıdır. USD kuru: <span class="exchange-rate"></span></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
+    <!-- App Scripts -->
+    <script src="app.js"></script>
+</body>
+</html>

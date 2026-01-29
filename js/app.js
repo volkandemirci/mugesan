@@ -11,7 +11,7 @@ const programConfig = {
     'thordon-kesim': {
         name: 'Thordon Kesim ve Malzeme Seçim Programı',
         path: 'programs/thordon-kesim/index.html',
-        enabled: false,
+        enabled: true,
         module: null
     },
     'atolye-is': {
